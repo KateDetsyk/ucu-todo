@@ -1,9 +1,19 @@
+class StepanError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "StepanError"; 
+  }
+}
 
 export default class Stepan {
   static createElement(element, parent, attributes = {}) {
-    // TODO: check if this is a valid tag name
+    // TODO: check if this is a valid tag name  
     const newElement = document.createElement(element);
-
+    
+    if (newElement === null || newElement === undefined || !(newElement instanceof HTMLElement)) {
+      throw new StepanError("element is invalid.");
+    } 
+    
     const { innerHTML, innerText } = attributes;
 
     for (let attribute in attributes) {
@@ -27,10 +37,11 @@ export default class Stepan {
 
       // TODO: 1. Create StepanError class to define all framework errors
       //       2. throw an error if parent is null or undefined, or if it's not a valid DOM object
-
+      if (parent === null || parent === undefined || !(parent instanceof HTMLElement)) {
+        throw new StepanError("parent type is invalid.");
+      } 
       this.parent = parent;
     }
-
     // TODO (Bonus): Ensure that every component returns a top-level root element
   }
 }
